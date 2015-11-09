@@ -1,0 +1,10 @@
+  POW <- read.csv("household_power_consumption.txt", sep = ";", colClasses=rep("character",9))
+  POW[POW == "?"] <- NA
+  POW$Time <- strptime((paste(POW$Date,POW$Time,sep = "-")),format = "%d/%m/%Y-%H:%M:%S")
+  POW$Time <- as.POSIXct(POW$Time)
+  POW$Date <- as.Date(POW$Date, format="%d/%m/%Y")
+  POW$Global_active_power <- as.numeric(POW$Global_active_power)
+  POW <- subset(POW, POW$Date >= as.Date("2007-02-01",format="%Y-%m-%d") & POW$Date <= as.Date("2007-02-02",format="%Y-%m-%d"))
+  png(file="plot2.png",width=480,height=480)
+  plot(POW$Global_active_power~POW$Time,type="l",ylab="Global Active Power (kilowatts)",xlab="")
+  dev.off()
